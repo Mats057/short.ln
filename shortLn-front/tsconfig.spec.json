@@ -10,5 +10,5 @@
   },
   "include": [
     "src/**/*.ts"
-  ]
+, "src/enviroments/enviroment.dev.ts"  ]
 }
