@@ -7,6 +7,7 @@ import com.mats057.shortLn.business.models.Url;
 public interface UrlRepo extends MongoRepository<Url, Long> {
 
     Url findByShortCode(String shortCode);
+    Url findByUrl(String url);
     void deleteByShortCode(String shortCode);
 
 }

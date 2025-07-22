@@ -9,12 +9,15 @@ import com.mats057.shortLn.controller.dtos.UrlStatsRequestDTO;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -23,8 +26,8 @@ import org.springframework.web.bind.annotation.PutMapping;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/shorten")
+@CrossOrigin
 public class UrlController {
-
     @Value("${default_url}")
     private String defaultUrl;
 
@@ -49,7 +52,7 @@ public class UrlController {
             @ApiResponse(responseCode = "400", description = "Invalid input")
         }
     )
-    public ResponseEntity<UrlRequestDTO> createURL(@RequestBody UrlCreateDTO urlDto) {
+    public ResponseEntity<UrlRequestDTO> createURL(@Valid @RequestBody UrlCreateDTO urlDto) {
         UrlRequestDTO createdUrl = shorteningService.createUrl(urlDto);
         return ResponseEntity
                 .created(java.net.URI.create(defaultUrl + createdUrl.shortCode()))
@@ -84,7 +87,7 @@ public class UrlController {
             @ApiResponse(responseCode = "400", description = "Invalid input"),
             @ApiResponse(responseCode = "404", description = "Short URL Not Found on the database")
     })
-    public ResponseEntity<UrlRequestDTO> updateURL(@PathVariable String shortCode, @RequestBody UrlCreateDTO url) {
+    public ResponseEntity<UrlRequestDTO> updateURL(@PathVariable String shortCode, @Valid @RequestBody UrlCreateDTO url) {
         return ResponseEntity.ok().body(shorteningService.updateUrl(shortCode, url));
     }
 

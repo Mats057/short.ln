@@ -43,16 +43,18 @@ public class ShorteningService {
     public UrlRequestDTO createUrl(UrlCreateDTO urlDto) {
         String url = urlDto.url();
         log.info("Creation of the URL:" + url + " started");
-        if (url.isBlank()) {
-            log.error("URL is empty");
-            throw new InvalidUrlException("The passed URL is empty");
-        }
-
         if (!url.matches("^https?://.*")) {
             throw new InvalidUrlException("Invalid URL format: " + url);
         }
 
         try {
+            Url urlModelExistent = urlRepo.findByUrl(url);
+            if (urlModelExistent != null) {
+                log.info("URL" + url + " already found in the database");
+                return new UrlRequestDTO(urlModelExistent.getId(), urlModelExistent.getUrl(), urlModelExistent.getShortCode(),
+                    urlModelExistent.getCreatedAt(),
+                    urlModelExistent.getUpdatedAt());
+            }
             long id = sequenceGeneratorService.generateSequence(Url.SEQUENCE_NAME);
             String shortCode = encodeBase62(id);
             Url urlModel = new Url(
@@ -76,11 +78,6 @@ public class ShorteningService {
 
     public UrlRequestDTO retrieveUrl(String shortCode) {
         log.info("Retriving the URL with the shortCode:" + shortCode);
-        if (shortCode.isBlank()) {
-            log.error("Short code is empty");
-            throw new InvalidUrlException("The passed shortCode is empty");
-        }
-
         try {
             Url urlModel = urlRepo.findByShortCode(shortCode);
             if (urlModel == null) {
@@ -102,10 +99,6 @@ public class ShorteningService {
     public UrlRequestDTO updateUrl(String shortCode, UrlCreateDTO urlDto) {
         String url = urlDto.url();
         log.info("Updating the shortCode:" + shortCode + " with the URL: " +url);
-        if (shortCode.isBlank() || url.isBlank()) {
-            log.error("Short code or the URL is empty");
-            throw new InvalidUrlException("The passed shortCode or URL is empty");
-        }
 
         if (!url.matches("^https?://.*")) {
             throw new InvalidUrlException("Invalid URL format: " + url);
@@ -134,10 +127,6 @@ public class ShorteningService {
 
     public void deleteUrl(String shortCode) {
         log.info("Deleting the shortCode:" + shortCode);
-        if (shortCode.isBlank()) {
-            log.error("Short code is empty");
-            throw new InvalidUrlException("The passed shortCode is empty");
-        }
 
         try {
             Url urlModel = urlRepo.findByShortCode(shortCode);
@@ -155,10 +144,6 @@ public class ShorteningService {
 
     public UrlStatsRequestDTO retrieveUrlStatistics(String shortCode) {
         log.info("Retriving the URL Stats with the shortCode:" + shortCode);
-        if (shortCode.isBlank()) {
-            log.error("Short code is empty");
-            throw new InvalidUrlException("The passed shortCode is empty");
-        }
 
         try {
             Url urlModel = urlRepo.findByShortCode(shortCode);

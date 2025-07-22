@@ -1,4 +1,6 @@
 package com.mats057.shortLn.controller.dtos;
 
-public record UrlCreateDTO(String url) {
+import jakarta.validation.constraints.NotBlank;
+
+public record UrlCreateDTO(@NotBlank(message = "URL cannot be blank") String url) {
 }

@@ -2,6 +2,10 @@ package com.mats057.shortLn.controller.dtos;
 
 import java.util.Date;
 
-public record UrlRequestDTO(Long id, String url, String shortCode, Date createdAt, Date updatedAt) {
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+
+public record UrlRequestDTO(@NotNull Long id, @NotBlank String url, @NotBlank String shortCode, @NotNull Date createdAt,
+        @NotNull Date updatedAt) {
 
 }
