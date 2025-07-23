@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <main>
-    <h1>Short.ln</h1>
-    <section>
-        <label>Paste your link and enjoy!</label>
-        <input type="text" #originalurl/>
-        <button (click)="handleClick()">Click here</button>
-    </section>
-    <section>
-        <a id="shortenedUrl" #shortenedurl target="_blank">
-        </a>
-    </section>
+  <h1 class="title">Short.ln</h1>
+  <select name="selectType" id="selectType" required [(ngModel)]="componentType">
+    <option value="shortener">Shortener</option>
+    <option value="stats">Statistics</option>
+  </select>
+  @if (componentType() == "shortener") {
+  <app-shortener />
+  } @else if (componentType() == "stats"){
+  <app-statistics />
+  }
 </main>

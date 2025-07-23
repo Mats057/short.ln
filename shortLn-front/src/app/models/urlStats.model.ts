@@ -5,5 +5,5 @@ export interface UrlStats{
     shortCode: String,
     createdAt: Date
     updatedAt: Date,
-    acessCount: number
+    accessCount: number
 }

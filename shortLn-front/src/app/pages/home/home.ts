@@ -1,33 +1,17 @@
-import { ShortenerService } from './../../services/shortenerService';
-import { Component, ElementRef, inject, ViewChild } from '@angular/core';
+import { Component, ElementRef, signal, ViewChild } from '@angular/core';
+import { Shortener } from '../../components/shortener/shortener';
+import { Statistics } from '../../components/statistics/statistics';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [],
+  imports: [Shortener, Statistics, FormsModule],
   templateUrl: './home.html',
-  styleUrls: ['./home.scss']
+  styleUrls: ['./home.scss'],
 })
 export class Home {
+  @ViewChild('selecttype') selectType!: ElementRef;
 
-  private shortenerService = inject(ShortenerService)
-
-  @ViewChild('shortenedurl') shortenedUrl!: ElementRef;
-  @ViewChild('originalurl') originalUrl!: ElementRef;
-  
-
-  handleClick(){
-    const response = this.shortenerService.createShortenedUrl(this.originalUrl.nativeElement.value);
-    response.subscribe({
-      next: (r) => {
-        this.shortenedUrl.nativeElement.href = `http://localhost:4200/rdr/${r.shortCode}`
-        this.shortenedUrl.nativeElement.innerText = `http://localhost:4200/rdr/${r.shortCode}`
-      },
-      error: (e) => {
-          this.shortenedUrl.nativeElement.style.color = "#FF0000"
-          this.shortenedUrl.nativeElement.innerText = e.error.error
-        }
-    })
-
-  }
+  componentType = signal('');
 }

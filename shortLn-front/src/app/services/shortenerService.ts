@@ -15,8 +15,8 @@ export class ShortenerService {
     return this.http.get<Url>(`${environment.API_HOST}/shorten/${shortCode}`);
   }
 
-  public getShortenedUrlStatistics(): Observable<UrlStats> {
-    return this.http.get<UrlStats>(`${environment.API_HOST}/shorten/stats`);
+  public getShortenedUrlStatistics(shortCode: string): Observable<UrlStats> {
+    return this.http.get<UrlStats>(`${environment.API_HOST}/shorten/${shortCode}/stats`);
   }
 
   public createShortenedUrl(url: string): Observable<Url> {
