@@ -25,5 +25,5 @@ public class Url {
     private String shortCode;
     private Date createdAt;
     private Date updatedAt;
-    private Long acessCount;
+    private Long accessCount;
 }

@@ -84,7 +84,7 @@ public class ShorteningService {
                 log.error("Short code" + shortCode + " not found in the database");
                 throw new URLNotFoundException("Short code not found: " + shortCode);
             }
-            urlModel.setAcessCount(urlModel.getAcessCount() + 1);
+            urlModel.setAccessCount(urlModel.getAccessCount() + 1);
             urlRepo.save(urlModel);
             log.info("Information retrieved successfully:" + urlModel.toString());
             return new UrlRequestDTO(urlModel.getId(), urlModel.getUrl(), urlModel.getShortCode(),
@@ -154,7 +154,7 @@ public class ShorteningService {
             log.info("Statistics information retrieved successfully:" + urlModel.toString());
             return new UrlStatsRequestDTO(urlModel.getId(), urlModel.getUrl(), urlModel.getShortCode(),
                     urlModel.getCreatedAt(),
-                    urlModel.getUpdatedAt(), urlModel.getAcessCount() + 1);
+                    urlModel.getUpdatedAt(), urlModel.getAccessCount() + 1);
         } catch (Exception e) {
             log.error("Error retrieving URL Stats for short code: " + shortCode);
             throw new InvalidUrlException("Error retrieving URL for short code: " + shortCode);

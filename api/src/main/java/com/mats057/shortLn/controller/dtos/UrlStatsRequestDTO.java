@@ -6,6 +6,6 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
 public record UrlStatsRequestDTO(@NotNull Long id, @NotBlank String url, @NotBlank String shortCode,
-        @NotNull Date createdAt, @NotNull Date updatedAt, @NotNull Long acessCount) {
+        @NotNull Date createdAt, @NotNull Date updatedAt, @NotNull Long accessCount) {
 
 }
