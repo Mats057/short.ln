@@ -1,26 +1,35 @@
 <section>
   <label>Enter your short code to see some infos!</label>
-  <input type="text" #shortenedurl />
-  <button (click)="handleClick()">Click here</button>
-  <div>
+  <div class="input">
+    <input type="text" #shortenedurl />
+    <button (click)="handleClick()">Click here</button>
+  </div>
+  <div class="content">
     <div>
       @if (statistics() != undefined) {
       <div #statisticstext>
         <p>
           Shortened URL:
-          <a [href]="`http://localhost:4200/rdr/${statistics()?.shortCode}`">http://localhost:4200/rdr/{{ statistics()?.shortCode }}</a>
+          <a [href]="`http://localhost:4200/rdr/${statistics()?.shortCode}`"
+            >http://localhost:4200/rdr/{{ statistics()?.shortCode }}</a
+          >
         </p>
         <p>
           Original URL:
           <a [href]="statistics()?.url">{{ statistics()?.url }}</a>
         </p>
         <p>Quantity of accesses: {{ statistics()?.accessCount }}</p>
-        <p>Created at {{ statistics()?.createdAt | date:'MMM d, y, h:mm:ss a' }}</p>
-        <p>Last update at {{ statistics()?.updatedAt | date:'MMM d, y, h:mm:ss a' }}</p>
+        <p>
+          Created at
+          {{ statistics()?.createdAt | date : "MMM d, y, h:mm:ss a" }}
+        </p>
+        <p>
+          Last update at
+          {{ statistics()?.updatedAt | date : "MMM d, y, h:mm:ss a" }}
+        </p>
       </div>
-      } @else {
-      <p #statisticserror></p>
       }
+      <p class="error-message" *ngIf="errorMessage()">{{ errorMessage() }}</p>
     </div>
   </div>
 </section>

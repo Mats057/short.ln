@@ -13,5 +13,5 @@ import { FormsModule } from '@angular/forms';
 export class Home {
   @ViewChild('selecttype') selectType!: ElementRef;
 
-  componentType = signal('');
+  componentType = signal('shortener');
 }

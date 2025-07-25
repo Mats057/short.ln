@@ -1,16 +1,24 @@
-import { Component, ElementRef, inject, ViewChild } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  inject,
+  signal,
+  ViewChild,
+} from '@angular/core';
 import { ShortenerService } from '../../services/shortenerService';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-shortener',
-  imports: [],
+  imports: [CommonModule],
   templateUrl: './shortener.html',
   styleUrl: './shortener.scss',
 })
 export class Shortener {
   private shortenerService = inject(ShortenerService);
+  shortenedUrl = signal('');
+  errorMessage = signal('');
 
-  @ViewChild('shortenedurl') shortenedUrl!: ElementRef;
   @ViewChild('originalurl') originalUrl!: ElementRef;
 
   handleClick() {
@@ -19,13 +27,17 @@ export class Shortener {
     );
     response.subscribe({
       next: (r) => {
-        this.shortenedUrl.nativeElement.style.color = '#2d5ef1ff';
-        this.shortenedUrl.nativeElement.href = `http://localhost:4200/rdr/${r.shortCode}`;
-        this.shortenedUrl.nativeElement.innerText = `http://localhost:4200/rdr/${r.shortCode}`;
+        this.shortenedUrl.set(`http://localhost:4200/rdr/${r.shortCode}`);
+        this.errorMessage.set('');
       },
       error: (e) => {
-        this.shortenedUrl.nativeElement.style.color = '#FF0000';
-        this.shortenedUrl.nativeElement.innerText = e.error.error || "Unexpected Error. Try Again Later";
+        this.shortenedUrl.set('');
+        this.errorMessage.set(
+          e.error.error || 'Unexpected Error. Try Again Later'
+        );
+        setTimeout(() => {
+          this.errorMessage.set('');
+        }, 3000);
       },
     });
   }

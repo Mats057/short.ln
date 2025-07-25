@@ -1,8 +1,16 @@
 <section>
-  <label>Paste your link and enjoy!</label>
-  <input type="text" #originalurl />
-  <button (click)="handleClick()">Click here</button>
-  <div>
-    <a id="shortenedUrl" #shortenedurl target="_blank"> </a>
+  <label>Paste your link and share!</label>
+  <div class="input">
+    <input type="text" #originalurl />
+    <button (click)="handleClick()">Click here</button>
+  </div>
+  <div class="content">
+    @if (shortenedUrl() !== '') {
+    <p>Your shortened URL:</p>
+    <a id="shortenedUrl" target="_blank" [href]="shortenedUrl()">
+      {{ shortenedUrl() }}
+    </a>
+    }
+    <p class="error-message" *ngIf="errorMessage()">{{ errorMessage() }}</p>
   </div>
 </section>
